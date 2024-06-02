@@ -1,0 +1,15 @@
+{
+  "name": "medicine_admin",
+  "version": "1.0.0",
+  "description": "中药后台",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/sherllyzhao/medicine-admin.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
