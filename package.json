@@ -4,12 +4,24 @@
   "description": "中药后台",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ./bin/www"
   },
   "repository": {
     "type": "git",
     "url": "https://gitee.com/sherllyzhao/medicine-admin.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "formidable": "^3.5.1",
+    "http-errors": "^2.0.0",
+    "lowdb": "^1.0.0",
+    "mongoose": "^8.4.3",
+    "morgan": "~1.9.1",
+    "shortid": "^2.2.16"
+  }
 }
