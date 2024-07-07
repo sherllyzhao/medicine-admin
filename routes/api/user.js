@@ -13,8 +13,12 @@ router.post('/register', function(req, res, next) {
       msg: '注册成功'
     })
   }).catch(e => {
+    let msg = '注册失败';
+    if (e.code === 11000) {
+      msg = '用户名已存在';
+    }
     res.json({
-      code: 400,
+      code: e.code,
       msg: '注册失败'
     })
   })
