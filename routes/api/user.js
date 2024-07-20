@@ -1,25 +1,31 @@
 var express = require('express');
 var router = express.Router();
 const UserModel = require('../../db/models/User');
+const md5 = require('md5');
+const LogModel = require('../../db/models/Log');
 
 router.get('/', function(req, res) {
   res.send('user');
 })
 
-/* GET home page. */
+/* 注册 */
 router.post('/register', function(req, res) {
   const {username, password} = req.body;
+  const lockPassword = md5(password);
   if(username && password){
     UserModel.create({
       username,
-      password
+      password: lockPassword
     }).then((r) => {
       try {
         req.session.username = username;
-        req.session.username = password;
+        req.session.password = lockPassword;
         req.session.uid = r._id;
       }catch(e){
-        cosole.log(e);
+        LogModel.create({
+          username,
+          log: JSON.stringify(e)
+        })
       }
       res.json({
         code: 200,
@@ -34,6 +40,10 @@ router.post('/register', function(req, res) {
       if (e.code === 11000) {
         msg = '用户名已存在';
       }
+      LogModel.create({
+        username,
+        log: JSON.stringify(e)
+      })
       res.json({
         code: e.code,
         msg
@@ -46,5 +56,40 @@ router.post('/register', function(req, res) {
     })
   }
 });
+
+/* 登录 */
+router.post('/login', function(req, res) {
+  const {username, password} = req.body;
+  UserModel.findOne({username}).then(r => {
+    if(r){
+      if(md5(password) === r.password){
+        res.json({
+          code: 200,
+          data: {
+            name: r.username,
+            _id: r._id
+          },
+          msg: '登录成功'
+        })
+      }else{
+        res.json({
+          code: 400,
+          msg: '密码输入错误'
+        })
+      }
+    }else{
+      res.json({
+        code: 400,
+        msg: '暂无该用户，请先注册'
+      })
+    }
+  }).catch(e => {
+    console.log(e);
+    LogModel.create({
+      username,
+      log: JSON.stringify(e)
+    })
+  })
+})
 
 module.exports = router;
