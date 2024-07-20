@@ -3,6 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+// session
+var session = require('express-session');
+var MongoStore = require('connect-mongo');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -19,6 +22,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+  name: 'userId', // 响应cookie的名字
+  secret: 'medicine', // 加密字符串，加盐
+  saveUninitialized: false, // 是否为每个请求都设置一个cookie用来存储session的id
+  resave: true, // 生命周期到期后自动更新
+  store: MongoStore.create({
+    mongoUrl: 'mongodb://127.0.0.1/medicine'
+  }),
+  cookie: { // 响应cookie的内容
+    httpOnly: true, // 开启后不可通过js操作
+    maxAge: 1000 * 30, // cookie有效期
+  }
+}))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
