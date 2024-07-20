@@ -9,7 +9,6 @@ router.get('/', function(req, res) {
 /* GET home page. */
 router.post('/register', function(req, res) {
   const {username, password} = req.body;
-  console.log(username, password)
   if(username && password){
     UserModel.create({
       username,

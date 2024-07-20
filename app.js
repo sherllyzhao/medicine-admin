@@ -37,6 +37,24 @@ app.use(session({
   }
 }))
 
+
+// 验证session
+app.use(function(req, res, next){
+  const whiteApiList = ['/api/user/register', '/api/user/login']
+  if(whiteApiList.includes(req.url)){
+    next();
+  }else{
+    if(req.session.username){
+      next();
+    }else{
+      res.json({
+        code: 401,
+        msg: '登录过期'
+      })
+    }
+  }
+})
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
