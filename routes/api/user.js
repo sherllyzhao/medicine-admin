@@ -63,11 +63,22 @@ router.post('/login', function(req, res) {
   UserModel.findOne({username}).then(r => {
     if(r){
       if(md5(password) === r.password){
+        try {
+          req.session.username = username;
+          req.session.password = lockPassword;
+          req.session.uid = r._id;
+        }catch(e){
+          LogModel.create({
+            username,
+            log: JSON.stringify(e)
+          })
+        }
         res.json({
           code: 200,
           data: {
             name: r.username,
-            _id: r._id
+            _id: r._id,
+            avatar: r.avatar || ''
           },
           msg: '登录成功'
         })

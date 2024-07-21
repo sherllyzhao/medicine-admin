@@ -19,6 +19,11 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now()
   },
+  avatar: {
+    type: String,
+    default: '',
+    required: false
+  }
 });
 
 // 6. 创建模型对象，对文档操作的封装对象
