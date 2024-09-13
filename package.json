@@ -4,7 +4,8 @@
   "description": "中药后台",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "dev": "nodemon ./bin/www"
   },
   "repository": {
     "type": "git",
@@ -23,8 +24,10 @@
     "http-errors": "^2.0.0",
     "lowdb": "^1.0.0",
     "md5": "^2.3.0",
+    "mongodb": "^6.9.0",
     "mongoose": "^8.4.3",
     "morgan": "~1.9.1",
+    "nodemon": "^3.1.4",
     "shortid": "^2.2.16"
   }
 }
